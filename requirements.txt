@@ -2,3 +2,8 @@ scapy
 colorama
 pcapy
 FlowParser
+dpkt
+httpcap
+numpy
+matploitlib
+pyshark

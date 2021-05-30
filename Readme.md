@@ -5,7 +5,7 @@
 <details>
   <summary>Data Representation</summary>
 
-  - [ ] To capture traffic flowing in network and save it for future or further analysis
+  - [x] To capture traffic flowing in network and save it for future or further analysis
 
   - [ ] To analyze http and https packets for unencrypted data transfer
 
