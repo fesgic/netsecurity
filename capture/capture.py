@@ -8,6 +8,5 @@ from scapy.all import *
 def packet_capture():
 
     pkts = sniff(prn=lambda x: x.summary())
-    # a = pkts.summary()
-    wrpcap("vm.pcap", pkts)
+    wrpcap(file, pkts)
     print(pkts)
