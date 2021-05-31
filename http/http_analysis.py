@@ -3,6 +3,7 @@ from scapy.layers.http import *
 from scapy.sessions import TCPSession
 from scapy.sendrecv import sniff
 from scapy.all import rdpcap
+from http import HTTPStatus
 
 plist = []
 
@@ -65,11 +66,10 @@ def func(pkt):
                         print(HTTPStatus(i))
                         plist.append(pkt)
                         print(plist)
+                        print("\n\n")
 
 
-sniff(offline="tcp3.pcap", prn=func, store=False, session=TCPSession)
+sniff(offline=file, prn=func, store=False, session=TCPSession)
 
 
 # for ip_src, mac_src,dst_src, type,
-
-
