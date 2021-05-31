@@ -6,6 +6,7 @@ from scapy.all import rdpcap
 from http import HTTPStatus
 
 plist = []
+sorted_plist = []
 
 # file = str(input("Enter name of file you want to analyze: "))
 # packets = rdpcap(file)
@@ -40,15 +41,17 @@ def func(pkt):
         if HTTP in pkt and HTTPResponse in pkt:
             if HTTPResponse in pkt:
                 # status codes are only in responses
-                status = pkt[HTTPResponse].Status_Code
+                status = pkt[HTTPResponse].Status_Code             
                 if int(status) in status_code:  # check code
                     for i in status_code:
                         print(HTTPStatus(i))
+                        #print("src_mac: ",pkt.src,"dst_mac :",pkt.dst,"src_ip: ",pkt[IP].src,"dst_ip :",pkt[IP].dst)
                         plist.append(pkt)
-                        print(plist)
+                        print("\n")
 
-
+print(plist)
 sniff(offline="tcp3.pcap", prn=func, store=False, session=TCPSession)
-
-
-# for ip_src, mac_src,dst_src, type,
+#print(plist)
+#print(type(plist[0]))
+#for list in plist:
+#plist.summary()
