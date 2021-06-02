@@ -65,8 +65,8 @@ def func(pkt):
                     for i in status_code:
                         print(HTTPStatus(i))
                         plist.append(pkt)
-                        print(plist)
-                        print("\n\n")
+                        print(type(plist))
+                        print(f"{plist}\n\n")
 
 
 sniff(offline=file, prn=func, store=False, session=TCPSession)
