@@ -1,15 +1,24 @@
 import pyshark
+import sys
+
+arguments = sys.argv
 from scapy.layers.http import *
 from scapy.sessions import TCPSession
 from scapy.sendrecv import sniff
 from scapy.all import rdpcap
-from http import HTTPStatus
+
+# from http import HTTPStatus
 
 plist = []
 
-file = str(input("Enter name of file you want to analyze: "))
-packets = rdpcap(file)
+code = []
+for num in range(100, 600):
+    code.append(num)
+
+filename = arguments[1];
+packets = rdpcap(filename)
 print("Capture has a total of ", len(packets), "packets")
+
 
 def status_code_type(status_code):
     if 100 <= status_code <= 199:
@@ -31,45 +40,59 @@ def status_code_type(status_code):
         return None
 
 
-#def pyshark_retran_packet(file):
+# def pyshark_retran_packet(file):
 #    capture = pyshark.FileCapture(file, display_filter='tcp.analysis.retransmission')
 #    counter = 0
 #    for packet in capture:
 #        counter = counter + 1
 #    return counter
-#print("Total number of retransmitted frames found = ",pyshark_retran_packet(file) )
+# print("Total number of retransmitted frames found = ",pyshark_retran_packet(file) )
 
-def pyshark_retran_packet(file):
-    capture = pyshark.FileCapture(file, display_filter='tcp.analysis.retransmission')
+def pyshark_retran_packet(filename):
+    capture = pyshark.FileCapture(filename, display_filter='tcp.analysis.retransmission')
     counter = 0
-    final=""
+    final = ""
     for packet in capture:
         counter = counter + 1
-        final=("Total number of retransmitted frames found = " + str(counter))
+        final = ("Total number of retransmitted frames found = " + str(counter))
     return final
 
-print(pyshark_retran_packet(file))
-#pyshark_retran_packet(file)
 
+print(pyshark_retran_packet(filename))
+
+
+# pyshark_retran_packet(filename)
 
 
 def func(pkt):
     # called on each packet
-    for code in range(100, 600):
-        status_code = [code]
-        if HTTP in pkt and HTTPResponse in pkt:
-            if HTTPResponse in pkt:
-                # status codes are only in responses
-                status = pkt[HTTPResponse].Status_Code
-                if int(status) in status_code:  # check code
-                    for i in status_code:
-                        print(HTTPStatus(i))
-                        plist.append(pkt)
-                        print(plist)
-                        print("\n\n")
+
+    stop = 0
+
+    if HTTP in pkt:
+        if HTTPResponse in pkt:
+            # status codes are only in responses
+            status = pkt[HTTPResponse].Status_Code
+
+            for status_code in code:
+                if status_code == int(status):
+                    if (stop == 0):  # check code
+                        i = int(status)
+
+                        plist.append([pkt])
 
 
-sniff(offline=file, prn=func, store=False, session=TCPSession)
+sniff(offline=filename, prn=func, store=False, session=TCPSession)
+
+print("\nRaw data packets:\n")
+print(plist)
+
+print("\n Formatted output")
+# filename="logfile.log"
+# file=open(filename,'a')
+# file.write(plist)
+# file.close()
 
 
 # for ip_src, mac_src,dst_src, type,
+# print(plist[0])
