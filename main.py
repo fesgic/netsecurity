@@ -11,5 +11,5 @@ if __name__ == '__main__':
             packets_cap.packet_capture()
     except IndexError:
         print("[-] Usage: %s <filename to save to>   " % sys.argv[0].strip())
-        print("[-] Example: %s capture.pcap        -    Capturing traffic from the live network" % sys.argv[0].strip())
+        print("[-] Example: %s capture.pcap        -    Capturing live traffic from the network" % sys.argv[0].strip())
 
