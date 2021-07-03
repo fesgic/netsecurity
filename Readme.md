@@ -7,7 +7,9 @@
 
   - [x] To capture traffic flowing in network and save it for future or further analysis
 
-  - [ ] To analyze http and https packets
+  - [x] To analyze http packets
+
+  - [ ] To analyze https packets
 
   - [ ] To analyze suspicious ssh logins and failed attempts into the institution
 
