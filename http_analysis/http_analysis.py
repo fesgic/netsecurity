@@ -146,9 +146,11 @@ for x in unsorted_report:
 csv_file = f"{filename}_http_report.csv"
 csv_columns = ['dest_mac', 'dst_ip', 'src_mac', 'src_ip', 'protocol', 'status_code', 'reason_phrase', 'day', 'time']
 with open(csv_file, "w") as csvfile:
-    writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+    #writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+    for column in csv_columns:
+        csvfile.write(str(column) + ',')
     for row in report:
-        csvfile.write(str(row) + ',' + '\n')
+        csvfile.write('\n' + str(row) + ',')
     csvfile.write("\n")
 
 print(f"{white}[ {green}OK {white}] Report generated and written to {yellow}{filename}_http_report.csv")
