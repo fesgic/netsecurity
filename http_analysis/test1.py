@@ -82,18 +82,40 @@ for i in range(100, 600):
 
 
 # define list for report extracted from packets
+#response packets
 unsorted_report = []
 report = []
+#request packets
+unsorted_request = []
+request_report = []
 
 
 def func(pkt):
+    if (HTTP in pkt and HTTPRequest in pkt):
+        print(f"""
+        {white}Source MAC : {blue}{pkt.src}
+        {white}Source IP : {blue}{pkt[IP].src}
+        {white}Dst MAC : {blue}{pkt.dst}
+        {white}Dst IP : {blue}{pkt[IP].dst}
+        {white}Protocol : {blue}HTTP
+        {white}Method : {blue}{pkt[HTTPRequest].Method.decode()}
+        {white}Request Path : {blue}{pkt[HTTPRequest].Path.decode()}
+        {white}Time : {blue}{pkt[HTTPRequest].If_Modified_Since}
+        """)
+        if pkt[HTTPRequest].If_Modified_Since == None:
+            time = None
+        else:
+            wakati = pkt[HTTPRequest].If_Modified_Since.decode()
+            time = str(wakati)
+        unsorted_request.append(f"{pkt.src},{pkt[IP].src},{pkt.dst},{pkt[IP].dst},HTTP,{pkt[HTTPRequest].Method.decode()},{pkt[HTTPRequest].Path.decode()},{time}")
+
     # called on each packet
     stop = 0
 
-    if HTTP in pkt and (HTTPResponse or HTTPResponse) in pkt:
-        if HTTPResponse or HTTPRequest in pkt:
+    if HTTP in pkt and HTTPResponse in pkt:
+        if HTTPResponse in pkt:
             # status codes are only in responses
-            status = pkt[HTTPResponse].Status_Code or pkt[HTTPRequest]
+            status = pkt[HTTPResponse].Status_Code
 
             for status_code in code:
                 if int(status_code) == int(status):
@@ -141,12 +163,31 @@ sniff(offline=filename, prn=func, store=False, session=TCPSession)
 # file.close()
 
 
+#Requests Analysis
+for y in unsorted_request:
+    x = y.split(',')
+    request_report.append(x)
+
+# Define name of csv file to save data to and column names
+csv_files = f"{filename}_Requests_http_report.csv"
+csv_column = ['src_mac', 'src_ip', 'dest_mac', 'dst_ip', 'protocol', 'Method', 'Path', 'day', 'time']
+with open(csv_files, "w") as csvfilez:
+    #writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
+    for column in csv_column:
+        csvfilez.write(str(column) + ',')
+    for row in request_report:
+        csvfilez.write('\n' + str(row) + ',')
+    csvfilez.write("\n")
+
+
+
+#Responses Analysis
 for x in unsorted_report:
     y = x.split(',')
     report.append(y)
 
 # Define name of csv file to save data to and column names
-csv_file = f"{filename}_http_report.csv"
+csv_file = f"{filename}_Responses_http_report.csv"
 csv_columns = ['dest_mac', 'dst_ip', 'src_mac', 'src_ip', 'protocol', 'status_code', 'reason_phrase', 'day', 'time']
 with open(csv_file, "w") as csvfile:
     #writer = csv.DictWriter(csvfile, fieldnames=csv_columns)
@@ -156,4 +197,5 @@ with open(csv_file, "w") as csvfile:
         csvfile.write('\n' + str(row) + ',')
     csvfile.write("\n")
 
-print(f"{white}[ {green}OK {white}] Report generated and written to {yellow}{filename}_http_report.csv")
+print(f"{white}[ {green}OK {white}] Requests report generated and written to {yellow}{filename}_Requests_http_report.csv")
+print(f"{white}[ {green}OK {white}] Report generated and written to {yellow}{filename}_Responses_http_report.csv")
