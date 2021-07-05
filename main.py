@@ -23,5 +23,5 @@ if __name__ == '__main__':
         print("[-] Usage: sudo %s <-i> <interface> <filename to save to>" % sys.argv[0].strip())
         print("[-] Example: sudo %s -i vmnet8 capture.pcap       -    Capturing live traffic from the network" % sys.argv[0].strip())
         print("\n\t\t[+] HTTP Traffic Analysis")
-        print("[-] Usage: python3 %s <-http> <filename to analyze>")
-        print("[-] Example: python3 %s -http capture.pcap       - Perfom a http packet analsyis and generate report ")
+        print("[-] Usage: python3 %s <-http> <filename to analyze>" % sys.argv[0].strip())
+        print("[-] Example: python3 %s -http capture.pcap       - Perfom a http packet analsyis and generate report " % sys.argv[0].strip())

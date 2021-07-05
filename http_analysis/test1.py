@@ -30,7 +30,6 @@ print(f"{white}[ {green}OK {white}] Analyzing data packets http protocol")
 
 packets = rdpcap(filename)
 print(f"{white}[ {green}OK {white}] Capture has a total of: {yellow}{len(packets)} packets{white}")
-print(f"{white}[ {green}OK {white}] Packet Analysis:")
 
 def status_code_type(status_code):
     if 100 <= status_code <= 199:
@@ -69,10 +68,13 @@ def pyshark_retran_packet(filename):
         final = f"{white}[ {green}OK {white}]Total number of retransmitted frames found = {yellow}{str(counter)}"
     return final
 
-
-print(pyshark_retran_packet(filename))
+if pyshark_retran_packet(filename) == None:
+    print(f"{white}[ {green}OK {white}]Total number of retransmitted frames found = {yellow}0")
+else:
+    print(f"{pyshark_retran_packet(filename)}")
 # pyshark_retran_packet(filename)
 
+print(f"{white}[ {green}OK {white}] Packet Analysis:")
 # define all possible http status codes
 code = []
 for i in range(100, 600):
@@ -123,12 +125,12 @@ def func(pkt):
 
 
 
-                    else:
-                        pass
+                #    else:
+                #        pass
 
                     # print(f"{plist}\n\n")
-                else:
-                    pass
+                #else:
+                #    pass
 
 
 sniff(offline=filename, prn=func, store=False, session=TCPSession)
