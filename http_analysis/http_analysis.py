@@ -154,7 +154,11 @@ def func(pkt):
 
                     # print(f"{plist}\n\n")
                 #else:
-                #    pass#Requests Analysis
+                #    pass
+
+sniff(offline=filename, prn=func, store=False, session=TCPSession)
+
+#Requests Analysis
 for y in unsorted_request:
     x = y.split(',')
     request_report.append(x)
