@@ -22,8 +22,11 @@ blue = '\033[94m'
 
 plist = []
 
+try:
+    filename = arguments[1]
+except:
+    filename="../tcp3.pcap"
 
-filename = arguments[1]
 
 print(f"{white}[ {green}OK {white}] Analyzing data packets http protocol")
 
