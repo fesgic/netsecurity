@@ -8,7 +8,6 @@ import csv
 import pyshark
 import sys
 
-filename = sys.argv[2]
 # from http import HTTPStatus
 
 # Setting the colors
@@ -23,6 +22,7 @@ plist = []
 
 try:
     filename = arguments[1]
+    filename = sys.argv[2]
 except:
     print(f"{red}[ FAIL ] {white} Please enter a filename to analyze packets{end}")
     exit()
