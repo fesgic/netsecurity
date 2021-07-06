@@ -17,18 +17,17 @@ fail = red = '\033[91m'
 success = green = '\033[92m'
 yellow = '\033[93m'
 blue = '\033[94m'
+end=white+"\n"
 
 plist = []
 
 try:
     filename = arguments[1]
 except:
-    filename="../tcp3.pcap"
+    print(f"{red}[ FAIL ] {white} Please enter a filename to analyze packets{end}")
+    exit()
 
-<<<<<<< HEAD:http/http_analysis.py
 
-=======
->>>>>>> 9cb021f5fcbb8d253dbae94c6bebc030945c8fa8:http_analysis/http_analysis.py
 print(f"{white}[ {green}OK {white}] Analyzing data packets http protocol")
 
 #count number of packets
