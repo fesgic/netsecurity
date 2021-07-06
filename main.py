@@ -1,8 +1,6 @@
-#netsecurity
+#! /usr/bin/python3
 import sys
-
 import capture.capture as packets_cap
-
 
 if __name__ == '__main__':
     try:
